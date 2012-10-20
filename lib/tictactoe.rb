@@ -2,11 +2,13 @@ require "color_text"
 
 class Tictactoe
   
-  @@moves = (0..8).to_a
-  @@computer_move = 4
-  @@playing = true
-  @@message = "Please enter your move".blue
-  @@continue = true
+  def initialize
+    @moves = (0..8).to_a
+    @computer_move = 4
+    @playing = true
+    @message = "Please enter your move".blue
+    @continue = true
+  end
 
   def play_game
     play_tictactoe
@@ -25,23 +27,23 @@ class Tictactoe
   def play_tictactoe
     display_board
     @start_game = interactive
-    while @@continue
+    while @continue
       print "\e[2J\e[f" # clear screen
       case @start_game
       when 'y'
         display_board
         competitor_plays
-        break if !@@continue
+        break if !@continue
         computer_plays
-        break if !@@continue
+        break if !@continue
       when 'q'
         break
       when 'n'
         computer_plays
         display_board
-        break if !@@continue
+        break if !@continue
         competitor_plays
-        break if !@@continue
+        break if !@continue
       else
         display_board
         puts 'Please enter appropriate options'.red
@@ -56,18 +58,18 @@ class Tictactoe
   end
   
   def computer_plays
-    if @@playing
+    if @playing
       computer_moves
-      @@continue = continue_playing
+      @continue = continue_playing
     end
   end
   
   def competitor_plays
-    if @@continue
-      puts @@message
+    if @continue
+      puts @message
       move = gets.chomp
       play(move)
-      @@continue = continue_playing
+      @continue = continue_playing
     end
   end
   
@@ -81,52 +83,52 @@ class Tictactoe
   
   def play(move)
     if move.size > 1
-      @@playing = false
-      @@message = "Please enter appropriate move".red
-      puts @@message
-    elsif @@moves.values_at(move.to_i).first == "X" || @@moves.values_at(move.to_i).first == "O"
-      @@playing = false
-      @@message = "Please choose another move, it's already taken".red
-      puts @@message
+      @playing = false
+      @message = "Please enter appropriate move".red
+      puts @message
+    elsif @moves.values_at(move.to_i).first == "X" || @moves.values_at(move.to_i).first == "O"
+      @playing = false
+      @message = "Please choose another move, it's already taken".red
+      puts @message
     elsif !is_numeric(move)
-      @@playing = false
-      @@message = "Please enter correct move".red
-      puts @@message
+      @playing = false
+      @message = "Please enter correct move".red
+      puts @message
     else
-      position = @@moves.index(move.to_i)
-      @@playing = true
-      @@message = "Please enter your move".blue
-      @@moves[position] = "O"
+      position = @moves.index(move.to_i)
+      @playing = true
+      @message = "Please enter your move".blue
+      @moves[position] = "O"
     end
   end
   
   def computer_moves
-    temp_moves = @@moves.clone
+    temp_moves = @moves.clone
     temp_moves.delete("O")
     temp_moves.delete("X")
-    if temp_moves.size == @@moves.size
-      @@moves[4] = "X"
+    if temp_moves.size == @moves.size
+      @moves[4] = "X"
     elsif computer_best_move
-      @@computer_move = computer_best_move
-      @@moves[computer_best_move] = "X"
+      @computer_move = computer_best_move
+      @moves[computer_best_move] = "X"
     elsif competitor_best_move
-      @@computer_move = competitor_best_move
-      @@moves[competitor_best_move] = "X"
+      @computer_move = competitor_best_move
+      @moves[competitor_best_move] = "X"
     else
       indexes = temp_moves.inject([]) do |result, element|
-        result << @@moves.index(element)
+        result << @moves.index(element)
         result
       end
       position_index = rand(0...indexes.size)
       values_position = indexes.values_at(position_index).first
-      @@computer_move = values_position
-      @@moves[values_position] = "X"
+      @computer_move = values_position
+      @moves[values_position] = "X"
     end
   end
   
   def display_board
     board = ""
-    @@moves.each_with_index do |move, index|
+    @moves.each_with_index do |move, index|
       case move
       when 'X'
         color_moves = "#{move}".purple
@@ -157,7 +159,7 @@ class Tictactoe
   end
   
   def play_until_draw
-    unmoved = @@moves.select do |move|
+    unmoved = @moves.select do |move|
       (0..10).include?(move)
     end
     !(unmoved.any?)
@@ -165,14 +167,14 @@ class Tictactoe
   
   def get_values
     score_values.inject([]) do |result, v|
-      result << @@moves.values_at(v[0], v[1], v[2]).uniq
+      result << @moves.values_at(v[0], v[1], v[2]).uniq
       result
     end
   end
   
   def best_move(check_moves_of, replace_with)
     score_values.each do |v|
-      result  = @@moves.values_at(v[0], v[1], v[2])
+      result  = @moves.values_at(v[0], v[1], v[2])
       if result.include?("#{check_moves_of}") && result.count("#{check_moves_of}") == 2
         result.delete("#{check_moves_of}")
         if result.first == "#{replace_with}"
