@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'tictactoe'
+Tictactoe.new.play_game
