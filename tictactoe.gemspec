@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name               = "tictactoe"
-  s.version            = "0.0.1"
+  s.version            = "0.0.3"
   s.default_executable = "tictactoe"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.date = %q{2012-10-20}
   s.description = %q{A simple tictactoe game gem to play in your terminal}
   s.files = ["Rakefile", "lib/tictactoe.rb", "bin/play_tictactoe"]
-  s.homepage = %q{http://rubygems.org/gems/tictactoe}
+  s.homepage = %q{http://www.swathik.com/2012/10/command-line-tictactoe-game-using-ruby.html}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.6.2}
   s.summary = %q{Enter play_tictactoe command in your terminal to play}
