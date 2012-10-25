@@ -121,7 +121,7 @@ class Tictactoe
           result << @moves.index(element)
           result
         end
-        position_index = rand(0...indexes.size)
+        position_index = Random.new.rand(0...indexes.size)
         values_position = indexes.values_at(position_index).first
         @computer_move = values_position
         @moves[values_position] = "X"
